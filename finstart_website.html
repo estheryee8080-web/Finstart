@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FinStart — Take Control of Your Money</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f9faf8;
+      color: #1a1a1a;
+      line-height: 1.7;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* Nav */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: #fff;
+      border-bottom: 1px solid #e5e7e4;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-brand { font-size: 20px; font-weight: 600; color: #0f6e56; }
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a { font-size: 14px; color: #555; cursor: pointer; }
+    .nav-links a:hover { color: #0f6e56; }
+
+    /* Layout */
+    .container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, #e1f5ee, #eaf3de);
+      border-radius: 16px;
+      padding: 4rem 2rem;
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .hero h1 { font-size: 36px; font-weight: 700; color: #085041; margin-bottom: 1rem; }
+    .hero p { font-size: 17px; color: #0f6e56; max-width: 500px; margin: 0 auto 2rem; }
+    .cta-btn {
+      background: #1d9e75;
+      color: #fff;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .cta-btn:hover { background: #0f6e56; }
+
+    /* Sections */
+    .section { margin-bottom: 3rem; }
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #1d9e75;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: .4rem;
+    }
+    .section h2 { font-size: 24px; font-weight: 600; margin-bottom: .75rem; }
+    .section > p { font-size: 15px; color: #555; }
+
+    /* Tips */
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 1.25rem;
+    }
+    .tip-card {
+      background: #fff;
+      border: 1px solid #e5e7e4;
+      border-radius: 14px;
+      padding: 1.25rem;
+    }
+    .tip-icon {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: #e1f5ee;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: .75rem;
+    }
+    .tip-icon svg { width: 20px; height: 20px; stroke: #1d9e75; fill: none; stroke-width: 2; }
+    .tip-card h3 { font-size: 14px; font-weight: 600; margin-bottom: .4rem; }
+    .tip-card p { font-size: 13px; color: #666; line-height: 1.6; }
+
+    /* Calculator */
+    .calc-card {
+      background: #fff;
+      border: 1px solid #e5e7e4;
+      border-radius: 14px;
+      padding: 1.75rem;
+      margin-top: 1.25rem;
+    }
+    .calc-row { display: flex; align-items: center; gap: 12px; margin-bottom: 1.25rem; }
+    .calc-row label { font-size: 14px; color: #555; min-width: 180px; }
+    .calc-row input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+      background: #f9faf8;
+      color: #1a1a1a;
+      outline: none;
+    }
+    .calc-row input:focus { border-color: #1d9e75; }
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 1rem;
+    }
+    .result-box {
+      background: #f4f6f3;
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .result-box .rlab { font-size: 12px; color: #777; margin-bottom: .3rem; }
+    .result-box .rval { font-size: 22px; font-weight: 700; }
+    .r-needs .rval { color: #0f6e56; }
+    .r-wants .rval { color: #185fa5; }
+    .r-savings .rval { color: #3c3489; }
+    .result-box .rsub { font-size: 11px; color: #999; margin-top: 4px; }
+
+    /* Resources */
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-top: 1.25rem;
+    }
+    .res-card {
+      background: #fff;
+      border: 1px solid #e5e7e4;
+      border-radius: 14px;
+      padding: 1.1rem;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+    .res-card:hover { border-color: #1d9e75; }
+    .res-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: .5rem;
+    }
+    .tag-green { background: #e1f5ee; color: #085041; }
+    .tag-blue  { background: #e6f1fb; color: #0c447c; }
+    .tag-purple{ background: #eeedfe; color: #3c3489; }
+    .res-card h3 { font-size: 14px; font-weight: 600; margin-bottom: .3rem; }
+    .res-card p  { font-size: 12px; color: #777; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid #e5e7e4;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      background: #fff;
+    }
+    footer p { font-size: 14px; color: #777; }
+    footer strong { color: #1d9e75; }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 26px; }
+      .result-grid { grid-template-columns: 1fr; }
+      .calc-row { flex-direction: column; align-items: flex-start; }
+      .nav-links { gap: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand">FinStart</span>
+  <div class="nav-links">
+    <a onclick="scrollTo('tips')">Tips</a>
+    <a onclick="scrollTo('calc')">Calculator</a>
+    <a onclick="scrollTo('resources')">Resources</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>Take control of your money</h1>
+    <p>Simple, friendly guides to help you budget smarter, save more, and stress less — no finance degree needed.</p>
+    <button class="cta-btn" onclick="scrollTo('tips')">Get started</button>
+  </div>
+
+  <!-- Why it matters -->
+  <div class="section">
+    <div class="section-label">Why it matters</div>
+    <h2>Your money, your future</h2>
+    <p>Managing your finances doesn't have to be complicated. Whether you're just starting out or trying to break a bad habit, a few simple habits can make a huge difference. Budgeting isn't about restricting yourself — it's about being intentional so your money works for you, not against you.</p>
+  </div>
+
+  <!-- Tips -->
+  <div class="section" id="tips">
+    <div class="section-label">Core tips</div>
+    <h2>6 beginner-friendly budgeting tips</h2>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg></div>
+        <h3>Try the 50/30/20 rule</h3>
+        <p>Split your income: 50% on needs, 30% on wants, 20% on savings. Simple and effective.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon"><svg viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h12"/></svg></div>
+        <h3>Track every expense</h3>
+        <p>Write down what you spend for one month. Awareness is the first step to change.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12h8M12 8v8"/></svg></div>
+        <h3>Build an emergency fund</h3>
+        <p>Aim for 3–6 months of expenses saved. Start with just RM500 if needed.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2"/><path d="M12 6v6l4 2"/></svg></div>
+        <h3>Automate your savings</h3>
+        <p>Set up an auto-transfer on payday. If you don't see it, you won't spend it.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon"><svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 12h.01"/></svg></div>
+        <h3>Pay yourself first</h3>
+        <p>Save before spending. Treat savings like a non-negotiable monthly bill.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon"><svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg></div>
+        <h3>Review monthly</h3>
+        <p>Spend 10 minutes at the end of each month reviewing your budget. Adjust as needed.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calculator -->
+  <div class="section" id="calc">
+    <div class="section-label">Budget calculator</div>
+    <h2>See your 50/30/20 split</h2>
+    <p>Enter your monthly take-home income to see a suggested budget breakdown.</p>
+    <div class="calc-card">
+      <div class="calc-row">
+        <label>Monthly income (RM)</label>
+        <input type="number" id="income" placeholder="e.g. 4000" oninput="calcBudget()" min="0" />
+      </div>
+      <div class="result-grid">
+        <div class="result-box r-needs">
+          <div class="rlab">Needs (50%)</div>
+          <div class="rval" id="needs">RM 0</div>
+          <div class="rsub">rent, food, bills</div>
+        </div>
+        <div class="result-box r-wants">
+          <div class="rlab">Wants (30%)</div>
+          <div class="rval" id="wants">RM 0</div>
+          <div class="rsub">dining, shopping</div>
+        </div>
+        <div class="result-box r-savings">
+          <div class="rlab">Savings (20%)</div>
+          <div class="rval" id="savings">RM 0</div>
+          <div class="rsub">emergency, invest</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Resources -->
+  <div class="section" id="resources">
+    <div class="section-label">Resources</div>
+    <h2>Keep learning</h2>
+    <div class="resources-grid">
+      <div class="res-card">
+        <span class="res-tag tag-green">Books</span>
+        <h3>Best finance books</h3>
+        <p>Top reads for beginners to build money habits</p>
+      </div>
+      <div class="res-card">
+        <span class="res-tag tag-blue">Apps</span>
+        <h3>Budgeting apps</h3>
+        <p>Apps to track spending and stay on budget</p>
+      </div>
+      <div class="res-card">
+        <span class="res-tag tag-purple">Investing</span>
+        <h3>Start investing</h3>
+        <p>Your first steps into growing your money</p>
+      </div>
+      <div class="res-card">
+        <span class="res-tag tag-green">Debt</span>
+        <h3>Paying off debt</h3>
+        <p>Simple strategies to clear debt faster</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>Built with <strong>FinStart</strong> — making finance approachable for everyone.</p>
+  <p style="margin-top:.4rem;font-size:12px">Small steps lead to big changes. You've got this.</p>
+</footer>
+
+<script>
+  function scrollTo(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+  }
+  function calcBudget() {
+    const v = parseFloat(document.getElementById('income').value) || 0;
+    document.getElementById('needs').textContent   = 'RM ' + Math.round(v * 0.5).toLocaleString();
+    document.getElementById('wants').textContent   = 'RM ' + Math.round(v * 0.3).toLocaleString();
+    document.getElementById('savings').textContent = 'RM ' + Math.round(v * 0.2).toLocaleString();
+  }
+</script>
+
+</body>
+</html>
